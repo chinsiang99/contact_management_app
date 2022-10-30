@@ -1,9 +1,10 @@
 const { Router } = require("express");
-const usersRoutes = require("./usersRoutes");
-// const usersRoutes = require("./users.routes");
+const userRoutes = require("./userRoutes");
+const contactRoutes = require("./contactRoutes");
 
 const router = Router();
 
-router.use("/users/", usersRoutes);
+router.use("/user/", userRoutes);
+router.use("/contact/", contactRoutes);
 
 module.exports = { router };

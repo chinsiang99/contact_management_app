@@ -19,6 +19,8 @@ const router = Router();
 // })
 // )
 
+// endpoint starts with api/user/
+
 router.route("/").get((req, res, next) => {
     res.json({
         text: "hello there"
