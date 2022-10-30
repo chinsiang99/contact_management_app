@@ -1,7 +1,9 @@
 const expressErrorHandler = (err, req, res, next) => {
-    // console.error(err);
-    res.status(500).json({
-        status: 500,
+
+    // check whether has status code, if not then return 500 status code
+    const statusCode = res.statusCode ? res.statusCode : 500;
+    res.status(statusCode).json({
+        status: statusCode,
         error: err.message
     })
 };

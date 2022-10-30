@@ -1,7 +1,7 @@
 const express = require("express");
 // const express = require("express-async-handler");
 
-// const { expressErrorHandler } = require("./middleware/error_handler.middleware");
+const { expressErrorHandler } = require("./middleware/error_handlerMiddleware");
 require("./config/dbConnection");
 const { router } = require("./routes/index");
 
@@ -16,7 +16,7 @@ app.use(express.json());
 
 app.use("/api/", router);
 
-// app.use(expressErrorHandler);
+app.use(expressErrorHandler);
 
 app.listen(3000, () => {
     console.log("server started in port 3000");
