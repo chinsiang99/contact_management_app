@@ -4,7 +4,7 @@ const contactRoutes = require("./contactRoutes");
 
 const router = Router();
 
-router.use("/user/", userRoutes);
-router.use("/contact/", contactRoutes);
+router.use("/users/", userRoutes);
+router.use("/contacts/", contactRoutes);
 
 module.exports = { router };

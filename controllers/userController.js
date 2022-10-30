@@ -10,10 +10,23 @@ const getUsers = asyncHandler((req, res, next) => {
 });
 
 const registerUser = asyncHandler(async (req, res, next) => {
-    const { username, email, password, createdAt, updatedAt } = req.body;
-    // const user = await User.create({
+    const { username, email, password } = req.body;
 
-    // })
+    // check either username, email or password is not filled
+    if (!username || !email || !password) {
+        res.status(400);
+        throw new Error("All fields are mandatory!");
+    }
+
+    const duplicateEmail = await User.where("email").equals(email).limit(1);
+
+    console.log(duplicateEmail);
+
+    res.json({
+        text: "Created Successfully"
+    })
+
+
 });
 
 const validateEmail = asyncHandler(async (req, res, next) => {
@@ -29,4 +42,4 @@ const validateEmail = asyncHandler(async (req, res, next) => {
     }
 })
 
-module.exports = { getUsers, validateEmail }
+module.exports = { getUsers, registerUser, validateEmail }
