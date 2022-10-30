@@ -2,6 +2,7 @@ const express = require("express");
 // const express = require("express-async-handler");
 
 // const { expressErrorHandler } = require("./middleware/error_handler.middleware");
+require("./config/dbConnection");
 const { router } = require("./routes/index");
 
 const app = express();
