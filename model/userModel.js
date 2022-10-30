@@ -16,10 +16,6 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, "Please add the user password"]
     },
-    timestamp: {
-        type: Date,
-        required: true
-    },
     createdAt: {
         type: Date,
         immutable: true,

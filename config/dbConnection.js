@@ -1,9 +1,8 @@
 const mongoose = require('mongoose');
 
-const url = "mongodb+srv://chinsiang99:talentlabs@cluster0.4oeg9ux.mongodb.net/test";
-// await mongoose.connect('mongodb://localhost/my_database');
+require("dotenv").config();
 
-mongoose.connect(url,
+mongoose.connect(process.env.CONNECTION_STRING,
     () => {
         console.log("connected");
     },
