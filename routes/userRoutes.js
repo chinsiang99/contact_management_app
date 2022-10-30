@@ -1,13 +1,14 @@
 const { Router } = require("express");
+const { getUsers, validateEmail } = require("../controllers/userController");
 
 const router = Router();
 
 // define routes after the "/users/" prefix
 // api/users/
 
-// router.route("/").get(
-//     isAuthenticated, getUsers
-// );
+router.route("/controller").get(
+    validateEmail
+);
 
 // router.route("/panic").get(
 //     panic
