@@ -67,9 +67,27 @@ const registerUser = asyncHandler(async (req, res, next) => {
 
 const loginUser = asyncHandler(async (req, res, next) => {
     const { email, password } = req.body;
-    const user = await User.where("email").equals(email);
-    if (user.length) {
 
+    // check either username, email or password is not filled
+    if (!email || !password) {
+        res.status(400);
+        throw new Error("All fields are mandatory!");
+    }
+
+    const user = await User.where("email").equals(email);
+    if (!user.length) {
+        res.status(401);
+        throw new Error("Email is not registered");
+    }
+
+    // compare the password to check whether they match each other
+    authorized = await bcrypt.compare(password, user[0].password);
+
+    if (authorized) {
+
+    } else {
+        res.status(401);
+        throw new Error("Invalid password");
     }
 })
 
@@ -86,4 +104,4 @@ const validateEmail = asyncHandler(async (req, res, next) => {
     }
 })
 
-module.exports = { getUsers, registerUser, validateEmail }
+module.exports = { getUsers, registerUser, validateEmail, loginUser }
