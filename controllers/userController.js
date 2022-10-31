@@ -1,7 +1,6 @@
 // const mongoose = require("mongoose");
 const User = require("../model/userModel");
 const asyncHandler = require("express-async-handler");
-// const UserModel = require("../model/userModel");
 
 const getUsers = asyncHandler((req, res, next) => {
     res.json({
@@ -12,12 +11,27 @@ const getUsers = asyncHandler((req, res, next) => {
 const registerUser = asyncHandler(async (req, res, next) => {
     const { username, email, password } = req.body;
 
+    // regex for email
+    const regex = /\S+@\S+\.\S+/;
+    // const regex2 = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+
     // check either username, email or password is not filled
     if (!username || !email || !password) {
         res.status(400);
         throw new Error("All fields are mandatory!");
     }
 
+    if(!email.match(regex)){
+        res.status(400);
+        throw new Error("Invalid email format, please insert a valid email format");
+    }
+
+    // console.log("hello");
+
+    res.json({
+        text: "Created Successfully"
+    })
+    
     const duplicateEmail = await User.where("email").equals(email).limit(1);
 
     console.log(duplicateEmail);
