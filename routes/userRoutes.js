@@ -14,7 +14,7 @@ router.route("/getUsers").get(
 );
 
 // route to register user
-router.route("/registerUser").get(
+router.route("/registerUser").post(
     registerUser
 );
 
