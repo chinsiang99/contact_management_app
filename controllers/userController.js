@@ -1,8 +1,7 @@
-// const mongoose = require("mongoose");
 const User = require("../model/userModel");
 const asyncHandler = require("express-async-handler");
-// const bcrypt = require("");
 const bcrypt = require('bcrypt');
+const jwt = require("jsonwebtoken");
 
 const getUsers = asyncHandler(async (req, res, next) => {
     try {
@@ -84,6 +83,18 @@ const loginUser = asyncHandler(async (req, res, next) => {
     authorized = await bcrypt.compare(password, user[0].password);
 
     if (authorized) {
+        const accessToken = jwt.sign(
+            {
+                user: {
+                    id: user._id,
+                },
+            },
+            process.env.ACCESS_TOKEN_SECERT,
+            { expiresIn: "15m" }
+        );
+        res.status(200).json({
+            token: accessToken
+        })
 
     } else {
         res.status(401);
