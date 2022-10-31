@@ -14,6 +14,7 @@ app.use(express.json());
 //     })
 // })
 
+// api routes
 app.use("/api/", router);
 
 app.use(expressErrorHandler);
