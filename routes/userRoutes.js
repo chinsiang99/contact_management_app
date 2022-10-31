@@ -7,6 +7,11 @@ const router = Router();
 // api/users/
 
 // route to register user
+router.route("/getUsers").get(
+    getUsers
+);
+
+// route to register user
 router.route("/registerUser").get(
     registerUser
 );

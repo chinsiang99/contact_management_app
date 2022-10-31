@@ -1,11 +1,22 @@
 // const mongoose = require("mongoose");
 const User = require("../model/userModel");
 const asyncHandler = require("express-async-handler");
+// const bcrypt = require("");
+const bcrypt = require('bcrypt');
 
-const getUsers = asyncHandler((req, res, next) => {
-    res.json({
-        text: "I am a controller!"
-    })
+const getUsers = asyncHandler(async (req, res, next) => {
+    try {
+        const allUsers = await User.find();
+        res.status(200).json({
+            allUsers: allUsers
+        })
+    } catch (e) {
+        const errorMessage = e.message;
+        res.status(500);
+        throw new Error(errorMessage);
+    }
+
+
 });
 
 const registerUser = asyncHandler(async (req, res, next) => {
@@ -22,27 +33,45 @@ const registerUser = asyncHandler(async (req, res, next) => {
     }
 
     // email format validation
-    if(!email.match(regex)){
+    if (!email.match(regex)) {
         res.status(400);
         throw new Error("Invalid email format, please insert a valid email format");
     }
 
-    // console.log("hello");
-
-    res.json({
-        text: "Created Successfully"
-    })
-    
     const duplicateEmail = await User.where("email").equals(email).limit(1);
 
-    console.log(duplicateEmail);
+    if (duplicateEmail.length > 0) {
+        throw new Error(`Duplicate email: ${email}`);
+    }
 
-    res.json({
-        text: "Created Successfully"
-    })
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash(password, salt);
 
+    try {
+        const createUser = await User.create({
+            username: username,
+            email: email,
+            password: hash
+        });
+        console.log(createUser);
+        res.status(201).json({
+            message: "Register Successfully!"
+        })
+    } catch (e) {
+        const errorMessage = e.message;
+        res.status(500);
+        throw new Error(errorMessage);
+    }
 
 });
+
+const loginUser = asyncHandler(async (req, res, next) => {
+    const { email, password } = req.body;
+    const user = await User.where("email").equals(email);
+    if (user.length) {
+
+    }
+})
 
 const validateEmail = asyncHandler(async (req, res, next) => {
     const { email } = req.body;
