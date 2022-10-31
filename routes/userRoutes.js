@@ -1,5 +1,7 @@
 const { Router } = require("express");
-const { getUsers, registerUser, validateEmail, loginUser } = require("../controllers/userController");
+const { getUsers, registerUser, loginUser, getCurrentUser } = require("../controllers/userController");
+const validateToken = require("../middleware/validateTokenHandler");
+
 
 const router = Router();
 
@@ -21,8 +23,8 @@ router.route("/loginUser").get(
     loginUser
 );
 
-router.route("/controller").get(
-    validateEmail
+router.route("/getCurrentUser").get(
+    validateToken, getCurrentUser
 );
 
 

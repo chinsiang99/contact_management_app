@@ -86,11 +86,11 @@ const loginUser = asyncHandler(async (req, res, next) => {
         const accessToken = jwt.sign(
             {
                 user: {
-                    id: user._id,
+                    id: user[0]._id,
                 },
             },
             process.env.ACCESS_TOKEN_SECERT,
-            { expiresIn: "15m" }
+            { expiresIn: "24h" }
         );
         res.status(200).json({
             token: accessToken
@@ -102,15 +102,18 @@ const loginUser = asyncHandler(async (req, res, next) => {
     }
 })
 
-const validateEmail = asyncHandler(async (req, res, next) => {
-    const { email } = req.body;
+const getCurrentUser = asyncHandler(async (req, res, next) => {
+    const { id } = req.user;
+    const currentUser = await User.where("_id").equals(id);
 
-    const user = await User.where("email").equals(email)
-    console.log(user.length);
-    if (!user.length) {
+    if (currentUser.length > 0) {
+        res.status(200).json({
+            userDetail: currentUser[0]
+        })
+    } else {
         res.status(400);
-        throw new Error("WOW ERROR");
+        throw new Error("No Record found");
     }
 })
 
-module.exports = { getUsers, registerUser, validateEmail, loginUser }
+module.exports = { getUsers, registerUser, loginUser, getCurrentUser }
