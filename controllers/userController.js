@@ -15,7 +15,6 @@ const getUsers = asyncHandler(async (req, res, next) => {
         throw new Error(errorMessage);
     }
 
-
 });
 
 const registerUser = asyncHandler(async (req, res, next) => {
@@ -67,12 +66,13 @@ const registerUser = asyncHandler(async (req, res, next) => {
 const loginUser = asyncHandler(async (req, res, next) => {
     const { email, password } = req.body;
 
-    // check either username, email or password is not filled
+    // check either email or password is not filled
     if (!email || !password) {
         res.status(400);
         throw new Error("All fields are mandatory!");
     }
 
+    // check whether the email is registered
     const user = await User.where("email").equals(email);
     if (!user.length) {
         res.status(401);
@@ -104,9 +104,7 @@ const loginUser = asyncHandler(async (req, res, next) => {
 
 const validateEmail = asyncHandler(async (req, res, next) => {
     const { email } = req.body;
-    // if (!email.includes("@")) {
-    //     throw new Error("Invalid email format, should be : xxx@xxx.xx");
-    // }
+
     const user = await User.where("email").equals(email)
     console.log(user.length);
     if (!user.length) {
