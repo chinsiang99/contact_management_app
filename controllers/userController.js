@@ -21,6 +21,7 @@ const registerUser = asyncHandler(async (req, res, next) => {
         throw new Error("All fields are mandatory!");
     }
 
+    // email format validation
     if(!email.match(regex)){
         res.status(400);
         throw new Error("Invalid email format, please insert a valid email format");
