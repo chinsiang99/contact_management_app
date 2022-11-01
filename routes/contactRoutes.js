@@ -2,7 +2,6 @@ const { Router } = require("express");
 const validateToken = require("../middleware/validateTokenHandler");
 const {createContact, getAllContacts, getSpecificContact, updateContact} = require("../controllers/contactController");
 const validateUserExists = require("../middleware/validateUserExist");
-// const {create}
 
 const router = Router();
 
@@ -13,23 +12,22 @@ const router = Router();
 router.use(validateToken);
 router.use(validateUserExists);
 
-router.route("/").get((req, res, next) => {
-    console.log("hello there !");
-
-})
-
+// route to create new contact
 router.route("/createContact").post(
     createContact
 );
 
+// route to get all contacts
 router.route("/getAllContacts").get(
     getAllContacts
 );
 
+// route to get specific contact with contact id
 router.route("/getSpecificContact/:contact_id").get(
     getSpecificContact
 );
 
+// route to update specific contact with contact id
 router.route("/updateContact/:contact_id").put(
     updateContact
 );

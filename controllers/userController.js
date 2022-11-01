@@ -3,6 +3,7 @@ const asyncHandler = require("express-async-handler");
 const bcrypt = require('bcrypt');
 const jwt = require("jsonwebtoken");
 
+// getting all users
 const getUsers = asyncHandler(async (req, res, next) => {
     try {
         const allUsers = await User.find();
@@ -17,6 +18,7 @@ const getUsers = asyncHandler(async (req, res, next) => {
 
 });
 
+// register a user
 const registerUser = asyncHandler(async (req, res, next) => {
     const { username, email, password } = req.body;
 
@@ -42,7 +44,9 @@ const registerUser = asyncHandler(async (req, res, next) => {
         throw new Error(`Duplicate email: ${email}`);
     }
 
+    // generate salt
     const salt = await bcrypt.genSalt(10);
+    // hash password
     const hash = await bcrypt.hash(password, salt);
 
     try {
@@ -51,7 +55,6 @@ const registerUser = asyncHandler(async (req, res, next) => {
             email: email,
             password: hash
         });
-        console.log(createUser);
         res.status(201).json({
             message: "Register Successfully!"
         })
@@ -63,6 +66,7 @@ const registerUser = asyncHandler(async (req, res, next) => {
 
 });
 
+// login a user and return a jwt token if success
 const loginUser = asyncHandler(async (req, res, next) => {
     const { email, password } = req.body;
 
@@ -102,6 +106,7 @@ const loginUser = asyncHandler(async (req, res, next) => {
     }
 })
 
+// get current user with decoded jwt token
 const getCurrentUser = asyncHandler(async (req, res, next) => {
     const { id } = req.user;
     const currentUser = await User.where("_id").equals(id);

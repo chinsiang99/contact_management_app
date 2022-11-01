@@ -23,6 +23,7 @@ router.route("/loginUser").get(
     loginUser
 );
 
+// route to get current user
 router.route("/getCurrentUser").get(
     validateToken, getCurrentUser
 );

@@ -9,7 +9,6 @@ const getAllContacts = asyncHandler(async (req,res,next)=>{
 
     try{
         const getAllContacts = await Contact.where("User").equals(id);
-        console.log(getAllContacts);
         res.status(200).json({
             status: 200,
             message: "Get All Contacts Successfully",
@@ -41,6 +40,7 @@ const getSpecificContact = asyncHandler(async (req,res,next)=>{
     }
 });
 
+// create new contact
 const createContact = asyncHandler(async (req,res,next)=>{
     const {id} = req.user;
     const {name, email, phone} = req.body;
@@ -66,7 +66,6 @@ const createContact = asyncHandler(async (req,res,next)=>{
             email: email,
             phone: phone
         });
-        console.log(createContact);
         res.status(201).json({
             message: "Create Contact Successful!"
         })
@@ -104,19 +103,7 @@ const updateContact = asyncHandler(async(req,res,next)=>{
         res.status(500);
         throw new Error(errorMessage);
     }
-    // try{
-    //     const getSpecificContact = await Contact.where("_id").equals(contact_id);
 
-    //     res.status(200).json({
-    //         status: 200,
-    //         message: "Get Specific Contact Details Successfully",
-    //         contactDetails: getSpecificContact[0]
-    //     });
-    // }catch(e){
-    //     const errorMessage = e.message;
-    //     res.status(500);
-    //     throw new Error(errorMessage);
-    // }
 });
 
 
