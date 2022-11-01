@@ -2,6 +2,7 @@ const Contact = require("../model/contactModel");
 const User = require("../model/userModel");
 const asyncHandler = require("express-async-handler");
 const jwt = require("jsonwebtoken");
+const mongoose = require("mongoose");
 
 // getting all contacts
 const getAllContacts = asyncHandler(async (req,res,next)=>{
@@ -78,6 +79,48 @@ const createContact = asyncHandler(async (req,res,next)=>{
 
 });
 
+// update contact with contact id
+const updateContact = asyncHandler(async(req,res,next)=>{
+    const {contact_id} = req.params;
+    const {name, email, phone} = req.body;
+
+    // check whether every fields are filled in
+    if(!name || !email || !phone){
+        res.status(400);
+        throw new Error("All fields are mandatory!");
+    }
+
+    try{
+        const updateContact = await Contact.where("_id").equals(contact_id);
+        // console.log(updateContact);
+        updateContact[0].name = name;
+        updateContact[0].email = email;
+        updateContact[0].phone = phone;
+        updateContact[0].save();
+        res.status(200).json({
+            status: 200,
+            message: "Update Contact Successfully",
+        });
+    }catch(e){
+        const errorMessage = e.message;
+        res.status(500);
+        throw new Error(errorMessage);
+    }
+    // try{
+    //     const getSpecificContact = await Contact.where("_id").equals(contact_id);
+
+    //     res.status(200).json({
+    //         status: 200,
+    //         message: "Get Specific Contact Details Successfully",
+    //         contactDetails: getSpecificContact[0]
+    //     });
+    // }catch(e){
+    //     const errorMessage = e.message;
+    //     res.status(500);
+    //     throw new Error(errorMessage);
+    // }
+});
 
 
-module.exports = { createContact, getAllContacts, getSpecificContact}
+
+module.exports = { createContact, getAllContacts, getSpecificContact, updateContact}

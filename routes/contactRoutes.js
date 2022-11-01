@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const validateToken = require("../middleware/validateTokenHandler");
-const {createContact, getAllContacts, getSpecificContact} = require("../controllers/contactController");
+const {createContact, getAllContacts, getSpecificContact, updateContact} = require("../controllers/contactController");
 const validateUserExists = require("../middleware/validateUserExist");
 // const {create}
 
@@ -28,6 +28,10 @@ router.route("/getAllContacts").get(
 
 router.route("/getSpecificContact/:contact_id").get(
     getSpecificContact
+);
+
+router.route("/updateContact/:contact_id").put(
+    updateContact
 );
 
 module.exports = router;
