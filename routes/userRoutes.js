@@ -27,13 +27,4 @@ router.route("/getCurrentUser").get(
     validateToken, getCurrentUser
 );
 
-
-// endpoint starts with api/user/
-
-router.route("/").get((req, res, next) => {
-    res.json({
-        text: "hello there"
-    })
-})
-
 module.exports = router;
