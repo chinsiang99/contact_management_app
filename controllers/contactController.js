@@ -88,6 +88,14 @@ const updateContact = asyncHandler(async(req,res,next)=>{
         throw new Error("All fields are mandatory!");
     }
 
+    const regex = /\S+@\S+\.\S+/;
+
+    // email format validation
+    if (!email.match(regex)) {
+        res.status(400);
+        throw new Error("Invalid email format, please insert a valid email format");
+    }
+
     try{
         const updateContact = await Contact.where("_id").equals(contact_id);
         if(updateContact.length > 0){
@@ -117,7 +125,7 @@ const deleteContact = asyncHandler(async(req,res,next)=>{
     try{
         const deleteContact = await Contact.where("_id").equals(contact_id);
         if(deleteContact.length > 0){
-            deleteContact.remove();
+            deleteContact[0].remove();
             res.status(200).json({
                 status: 200,
                 message: "Delete Contact Successfully"
