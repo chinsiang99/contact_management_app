@@ -1,24 +1,57 @@
 const Contact = require("../model/contactModel");
+const User = require("../model/userModel");
 const asyncHandler = require("express-async-handler");
 
-// const getUsers = asyncHandler(async (req, res, next) => {
-//     try {
-//         const allUsers = await User.find();
-//         res.status(200).json({
-//             allUsers: allUsers
-//         })
-//     } catch (e) {
-//         const errorMessage = e.message;
-//         res.status(500);
-//         throw new Error(errorMessage);
-//     }
-
-// });
+// getting all contacts
+const getAllContacts = asyncHandler(async (req,res,next)=>{
+    const {id} = req.user;
+})
 
 const createContact = asyncHandler(async (req,res,next)=>{
-    res.json({
-        message: "hello there"
-    })
+    const {id} = req.user;
+    const {name, email, phone} = req.body;
+
+    // check whether the user exists in the database
+    const userExist = await User.where("_id").equals(id);
+    if (userExist.length < 0){
+        throw new Error("User not exist!");
+    }
+
+    // check whether every fields are filled in
+    if(!name || !email || !phone){
+        res.status(400);
+        throw new Error("All fields are mandatory!");
+    }
+
+    const regex = /\S+@\S+\.\S+/;
+
+    // email format validation
+    if (!email.match(regex)) {
+        res.status(400);
+        throw new Error("Invalid email format, please insert a valid email format");
+    }
+
+    try {
+        const createContact = await Contact.create({
+            User: id,
+            name: name,
+            email: email,
+            phone: phone
+        });
+        console.log(createContact);
+        res.status(201).json({
+            message: "Create Contact Successful!"
+        })
+    } catch (e) {
+        const errorMessage = e.message;
+        res.status(500);
+        throw new Error(errorMessage);
+    }
+    
+    // const 
+    // res.json({
+    //     message: "hello there"
+    // })
 })
 
 const registerUser = asyncHandler(async (req, res, next) => {
