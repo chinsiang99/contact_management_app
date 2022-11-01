@@ -1,10 +1,25 @@
 const Contact = require("../model/contactModel");
 const User = require("../model/userModel");
 const asyncHandler = require("express-async-handler");
+const jwt = require("jsonwebtoken");
 
 // getting all contacts
 const getAllContacts = asyncHandler(async (req,res,next)=>{
     const {id} = req.user;
+
+    try{
+        const getAllContacts = await Contact.where("User").equals(id);
+        console.log(getAllContacts);
+        res.status(200).json({
+            status: 200,
+            message: "Get All Contacts Successfully",
+            contactList: getAllContacts
+        });
+    }catch(e){
+        const errorMessage = e.message;
+        res.status(500);
+        throw new Error(errorMessage);
+    }
 })
 
 const createContact = asyncHandler(async (req,res,next)=>{
@@ -149,4 +164,4 @@ const getCurrentUser = asyncHandler(async (req, res, next) => {
     }
 })
 
-module.exports = { createContact, registerUser, loginUser, getCurrentUser }
+module.exports = { createContact, getAllContacts, registerUser, loginUser, getCurrentUser }
