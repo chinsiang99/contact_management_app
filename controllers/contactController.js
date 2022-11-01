@@ -90,14 +90,19 @@ const updateContact = asyncHandler(async(req,res,next)=>{
 
     try{
         const updateContact = await Contact.where("_id").equals(contact_id);
-        updateContact[0].name = name;
-        updateContact[0].email = email;
-        updateContact[0].phone = phone;
-        updateContact[0].save();
-        res.status(200).json({
-            status: 200,
-            message: "Update Contact Successfully",
-        });
+        if(updateContact.length > 0){
+            updateContact[0].name = name;
+            updateContact[0].email = email;
+            updateContact[0].phone = phone;
+            updateContact[0].save();
+            res.status(200).json({
+                status: 200,
+                message: "Update Contact Successfully",
+            });
+        }else{
+            res.status(400);
+            throw new Error("Specific Contact Does Not Exist!");
+        }   
     }catch(e){
         const errorMessage = e.message;
         res.status(500);
@@ -106,6 +111,27 @@ const updateContact = asyncHandler(async(req,res,next)=>{
 
 });
 
+// delete specific contact with contact id
+const deleteContact = asyncHandler(async(req,res,next)=>{
+    const {contact_id} = req.params;
+    try{
+        const deleteContact = await Contact.where("_id").equals(contact_id);
+        if(deleteContact.length > 0){
+            deleteContact.remove();
+            res.status(200).json({
+                status: 200,
+                message: "Delete Contact Successfully"
+            })
+        }else{
+            res.status(400);
+            throw new Error("Specific Contact Does Not Exist!");
+        }
+    }catch(e){
+        const errorMessage = e.message;
+        res.status(500);
+        throw new Error(errorMessage);
+    }
+})
 
 
-module.exports = { createContact, getAllContacts, getSpecificContact, updateContact}
+module.exports = { createContact, getAllContacts, getSpecificContact, updateContact, deleteContact}
