@@ -2,7 +2,6 @@ const Contact = require("../model/contactModel");
 const User = require("../model/userModel");
 const asyncHandler = require("express-async-handler");
 const jwt = require("jsonwebtoken");
-const mongoose = require("mongoose");
 
 // getting all contacts
 const getAllContacts = asyncHandler(async (req,res,next)=>{
@@ -92,7 +91,6 @@ const updateContact = asyncHandler(async(req,res,next)=>{
 
     try{
         const updateContact = await Contact.where("_id").equals(contact_id);
-        // console.log(updateContact);
         updateContact[0].name = name;
         updateContact[0].email = email;
         updateContact[0].phone = phone;
