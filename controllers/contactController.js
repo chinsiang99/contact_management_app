@@ -1,21 +1,23 @@
-const User = require("../model/userModel");
+const Contact = require("../model/contactModel");
 const asyncHandler = require("express-async-handler");
-const bcrypt = require('bcrypt');
-const jwt = require("jsonwebtoken");
 
-const getUsers = asyncHandler(async (req, res, next) => {
-    try {
-        const allUsers = await User.find();
-        res.status(200).json({
-            allUsers: allUsers
-        })
-    } catch (e) {
-        const errorMessage = e.message;
-        res.status(500);
-        throw new Error(errorMessage);
-    }
+// const getUsers = asyncHandler(async (req, res, next) => {
+//     try {
+//         const allUsers = await User.find();
+//         res.status(200).json({
+//             allUsers: allUsers
+//         })
+//     } catch (e) {
+//         const errorMessage = e.message;
+//         res.status(500);
+//         throw new Error(errorMessage);
+//     }
 
-});
+// });
+
+const createContact = asyncHandler(async (req,res,next)=>{
+  
+})
 
 const registerUser = asyncHandler(async (req, res, next) => {
     const { username, email, password } = req.body;

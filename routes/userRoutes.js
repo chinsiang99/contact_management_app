@@ -8,7 +8,7 @@ const router = Router();
 // define routes after the "/users/" prefix
 // api/users/
 
-// route to get all users
+// route to get all users - for us to check / reference back
 router.route("/getUsers").get(
     getUsers
 );
