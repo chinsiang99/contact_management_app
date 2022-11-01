@@ -16,7 +16,9 @@ const asyncHandler = require("express-async-handler");
 // });
 
 const createContact = asyncHandler(async (req,res,next)=>{
-  
+    res.json({
+        message: "hello there"
+    })
 })
 
 const registerUser = asyncHandler(async (req, res, next) => {
@@ -120,4 +122,4 @@ const getCurrentUser = asyncHandler(async (req, res, next) => {
     }
 })
 
-module.exports = { getUsers, registerUser, loginUser, getCurrentUser }
+module.exports = { createContact, registerUser, loginUser, getCurrentUser }
