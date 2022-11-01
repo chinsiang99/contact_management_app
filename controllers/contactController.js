@@ -11,12 +11,6 @@ const createContact = asyncHandler(async (req,res,next)=>{
     const {id} = req.user;
     const {name, email, phone} = req.body;
 
-    // check whether the user exists in the database
-    const userExist = await User.where("_id").equals(id);
-    if (userExist.length < 0){
-        throw new Error("User not exist!");
-    }
-
     // check whether every fields are filled in
     if(!name || !email || !phone){
         res.status(400);

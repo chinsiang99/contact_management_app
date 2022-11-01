@@ -1,27 +1,16 @@
 const asyncHandler = require("express-async-handler");
-const jwt = require("jsonwebtoken");
-require("dotenv").config();
+const User = require("../model/userModel");
 
-const validateToken = asyncHandler(async (req, res, next) => {
-    const authHeader = req.headers.authorization;
-
-    if (authHeader && authHeader.startsWith("Bearer")) {
-        token = authHeader.split(" ")[1];
-        // console.log(process.env.ACCESS_TOKEN_SECERT);
-        jwt.verify(token, process.env.ACCESS_TOKEN_SECERT, (err, decoded) => {
-            if (err) {
-                res.status(401);
-                throw new Error("User is not authorized");
-            }
-            req.user = decoded.user;
-            next();
-        });
-    } else {
-        throw new Error("User is not authorized");
+const validateUserExists = asyncHandler(async (req, res, next) => {
+    const {id} = req.user;
+    // check whether the user exists in the database
+    const userExist = await User.where("_id").equals(id);
+    if (userExist.length < 0){
+        throw new Error("User not exist!");
     }
-
+    next();
 });
 
-module.exports = validateToken
+module.exports = validateUserExists
 
 
