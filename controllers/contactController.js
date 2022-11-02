@@ -125,6 +125,7 @@ const updateContact = asyncHandler(async (req, res, next) => {
 // delete specific contact with contact id
 const deleteContact = asyncHandler(async (req, res, next) => {
     const { contact_id } = req.params;
+    const { id } = req.user;
     try {
         const deleteContact = await Contact.where("_id").equals(contact_id).where("User").equals(id);
         if (deleteContact.length > 0) {
