@@ -48,6 +48,14 @@ Request for .env file from `chinsiang99@gmail.com`
 
 Run `npm run dev` to start the application
 
+## Routes Used
+
+### userRoutes
+
+POST:/api/users/registerUser (Public Route)\
+
+POST:/api/users/login (Public Route)
+
 ## Available Scripts
 
 In the project directory, you can run:
