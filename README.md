@@ -43,7 +43,13 @@ Please run git clone `https://github.com/chinsiang99/contact_management_app.git`
 
 Please run `npm install` after cloning the repository
 
-### `3) `
+### `3) Request for .env File`
+
+Request for .env file from `chinsiang99@gmail.com`
+
+### `4) Done`
+
+Run `npm run dev` to start the application
 
 ## Available Scripts
 
