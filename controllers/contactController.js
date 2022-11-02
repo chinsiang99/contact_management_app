@@ -7,18 +7,22 @@ const jwt = require("jsonwebtoken");
 const getAllContacts = asyncHandler(async (req, res, next) => {
     const { id } = req.user;
 
-    try {
-        const getAllContacts = await Contact.where("User").equals(id);
+    const getAllContacts = await Contact.where("User").equals(id);
+
+    if (getAllContacts.length > 0) {
         res.status(200).json({
             status: 200,
             message: "Get All Contacts Successfully",
             contactList: getAllContacts
         });
-    } catch (e) {
-        const errorMessage = e.message;
-        res.status(500);
-        throw new Error(errorMessage);
+    } else {
+        res.status(200).json({
+            status: 200,
+            message: "There are no contacts found, please create some contacts",
+        });
     }
+
+
 });
 
 // get specific contact details with contact id
@@ -26,19 +30,21 @@ const getSpecificContact = asyncHandler(async (req, res, next) => {
     const { contact_id } = req.params;
     const { id } = req.user;
 
-    try {
-        const getSpecificContact = await Contact.where("_id").equals(contact_id).where("User").equals(id);
+    const getSpecificContact = await Contact.where("_id").equals(contact_id).where("User").equals(id);
 
+    if (getSpecificContact.length > 0) {
         res.status(200).json({
             status: 200,
             message: "Get Specific Contact Details Successfully",
             contactDetails: getSpecificContact[0]
         });
-    } catch (e) {
-        const errorMessage = e.message;
-        res.status(500);
-        throw new Error(errorMessage);
+    } else {
+        res.status(200).json({
+            status: 200,
+            message: "The specific contact does not exist!"
+        });
     }
+
 });
 
 // create new contact
@@ -98,27 +104,29 @@ const updateContact = asyncHandler(async (req, res, next) => {
         throw new Error("Invalid email format, please insert a valid email format");
     }
 
-    try {
-        const updateContact = await Contact.where("_id").equals(contact_id).where("User").equals(id);
-        if (updateContact.length > 0) {
-            updateContact[0].name = name;
-            updateContact[0].email = email;
-            updateContact[0].phone = phone;
-            updateContact[0].updatedAt = Date.now();
-            updateContact[0].save();
+    const updateContact = await Contact.where("_id").equals(contact_id).where("User").equals(id);
+    if (updateContact.length > 0) {
+        updateContact[0].name = name;
+        updateContact[0].email = email;
+        updateContact[0].phone = phone;
+        updateContact[0].updatedAt = Date.now();
+        try {
+            await updateContact[0].save();
             res.status(200).json({
                 status: 200,
                 message: "Update Contact Successfully",
             });
-        } else {
-            res.status(400);
-            throw new Error("Specific Contact Does Not Exist!");
+        } catch (e) {
+            const errorMessage = e.message;
+            res.status(500);
+            throw new Error(errorMessage);
         }
-    } catch (e) {
-        const errorMessage = e.message;
-        res.status(500);
-        throw new Error(errorMessage);
+
+    } else {
+        res.status(400);
+        throw new Error("Specific Contact Does Not Exist!");
     }
+
 
 });
 
@@ -126,23 +134,20 @@ const updateContact = asyncHandler(async (req, res, next) => {
 const deleteContact = asyncHandler(async (req, res, next) => {
     const { contact_id } = req.params;
     const { id } = req.user;
-    try {
-        const deleteContact = await Contact.where("_id").equals(contact_id).where("User").equals(id);
-        if (deleteContact.length > 0) {
-            deleteContact[0].remove();
-            res.status(200).json({
-                status: 200,
-                message: "Delete Contact Successfully"
-            })
-        } else {
-            res.status(400);
-            throw new Error("Specific Contact Does Not Exist!");
-        }
-    } catch (e) {
-        const errorMessage = e.message;
-        res.status(500);
-        throw new Error(errorMessage);
+
+    const deleteContact = await Contact.where("_id").equals(contact_id).where("User").equals(id);
+
+    if (deleteContact.length > 0) {
+        deleteContact[0].remove();
+        res.status(200).json({
+            status: 200,
+            message: "Delete Contact Successfully"
+        })
+    } else {
+        res.status(400);
+        throw new Error("Specific Contact Does Not Exist!");
     }
+
 })
 
 
