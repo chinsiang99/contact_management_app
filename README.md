@@ -4,7 +4,10 @@
 Contact management App is the set of backend APIs which allows the user to manage their contacts. As this is a backend express project so to test the APIs we can use HTTP client (e.g. postman) and do the CRUD operations on the Contacts. The App will also contain the Registration of the Users along with login and current logged in user info apis. Only logged in users can manage the contacts of their own.
 
 ### `Goals`
-
+<ul>
+  <li>Users can register for their account.\</li>
+  <li>Once registration is successful, users can login to their account and manage their contacts.\</li>
+</ul>
 • Users can register for their account.\
 • Once registration is successful, users can login to their account and manage their contacts.\
 • Users can create, update, delete, get all contacts or get a single contact which they have created.\
