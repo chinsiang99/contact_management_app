@@ -50,9 +50,9 @@ Run `npm run dev` to start the application
 
 ## Routes Used
 
-### userRoutes
+### `userRoutes`
 
-POST:/api/users/registerUser (Public Route)\
+POST:/api/users/registerUser (Public Route)
 
 POST:/api/users/login (Public Route)
 
