@@ -28,8 +28,7 @@ collections in the form of JSON objects.\
 • Mongoose : Used to create object model design schema for our entities like (Contacts, Users) and provide access to methods on the entities to
 communicate with MongoDB.\
 • Postman : Used to test the API endpoints we have created.\ 
-• Nodemon : Used to detect the changes in file and restart the server.\
-automatically, especially used for development purposes.
+• Nodemon : Used to detect the changes in file and restart the server automatically, especially used for development purposes.\
 
 ## Steps to Get Started
 
