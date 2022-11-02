@@ -24,9 +24,10 @@ const getAllContacts = asyncHandler(async (req, res, next) => {
 // get specific contact details with contact id
 const getSpecificContact = asyncHandler(async (req, res, next) => {
     const { contact_id } = req.params;
+    const { id } = req.user;
 
     try {
-        const getSpecificContact = await Contact.where("_id").equals(contact_id);
+        const getSpecificContact = await Contact.where("_id").equals(contact_id).where("User").equals(id);
 
         res.status(200).json({
             status: 200,
@@ -81,6 +82,7 @@ const createContact = asyncHandler(async (req, res, next) => {
 const updateContact = asyncHandler(async (req, res, next) => {
     const { contact_id } = req.params;
     const { name, email, phone } = req.body;
+    const { id } = req.user;
 
     // check whether every fields are filled in
     if (!name || !email || !phone) {
@@ -97,7 +99,7 @@ const updateContact = asyncHandler(async (req, res, next) => {
     }
 
     try {
-        const updateContact = await Contact.where("_id").equals(contact_id);
+        const updateContact = await Contact.where("_id").equals(contact_id).where("User").equals(id);
         if (updateContact.length > 0) {
             updateContact[0].name = name;
             updateContact[0].email = email;
@@ -124,7 +126,7 @@ const updateContact = asyncHandler(async (req, res, next) => {
 const deleteContact = asyncHandler(async (req, res, next) => {
     const { contact_id } = req.params;
     try {
-        const deleteContact = await Contact.where("_id").equals(contact_id);
+        const deleteContact = await Contact.where("_id").equals(contact_id).where("User").equals(id);
         if (deleteContact.length > 0) {
             deleteContact[0].remove();
             res.status(200).json({
