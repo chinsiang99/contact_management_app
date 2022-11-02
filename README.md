@@ -4,7 +4,7 @@
 <p align="justify">Contact management App is the set of backend APIs which allows the user to manage their contacts. As this is a backend express project so to test the APIs we can use HTTP client (e.g. postman) and do the CRUD operations on the Contacts. The App will also contain the Registration of the Users along with login and current logged in user info apis. Only logged in users can manage the contacts of their own.</p>
 
 ### `Goals`
-<ul>
+<ul align="justify">
   <li>Users can register for their account.</li>
   <li>Once registration is successful, users can login to their account and manage their contacts.</li>
   <li>Users can create, update, delete, get all contacts or get a single contact which they have created.</li>
@@ -17,7 +17,7 @@
 
 ### `Tools & Libraries`
 
-<ul>
+<ul align="justify">
   <li>Node.js : ( module: http, path )</li>
   <li>Express : Use to get robust features to build web application using node.js (router, body parser, request params)</li>
   <li>Bcrypt : Used for hashing the user password and compare the hash password during login</li>
@@ -55,6 +55,4 @@ In the project directory, you can run:
 ### `npm run dev`
 
 Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.
+Test the application starting with http://localhost:3000
