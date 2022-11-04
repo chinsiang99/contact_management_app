@@ -13,27 +13,27 @@ router.use(validateToken);
 router.use(validateUserExists);
 
 // route to create new contact
-router.route("/createContact").post(
+router.route("/").post(
     createContact
 );
 
 // route to get all contacts
-router.route("/getAllContacts").get(
+router.route("/").get(
     getAllContacts
 );
 
 // route to get specific contact with contact id
-router.route("/getSpecificContact/:contact_id").get(
+router.route("/:contact_id").get(
     getSpecificContact
 );
 
 // route to update specific contact with contact id
-router.route("/updateContact/:contact_id").put(
+router.route("/:contact_id").put(
     updateContact
 );
 
 // route to delete specific contact with contact id
-router.route("/deleteContact/:contact_id").delete(
+router.route("/:contact_id").delete(
     deleteContact
 );
 

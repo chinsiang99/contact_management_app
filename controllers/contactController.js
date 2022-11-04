@@ -39,8 +39,8 @@ const getSpecificContact = asyncHandler(async (req, res, next) => {
             contactDetails: getSpecificContact[0]
         });
     } else {
-        res.status(200).json({
-            status: 200,
+        res.status(400).json({
+            status: 400,
             message: "The specific contact does not exist!"
         });
     }
@@ -74,6 +74,7 @@ const createContact = asyncHandler(async (req, res, next) => {
             phone: phone
         });
         res.status(201).json({
+            status: 201,
             message: "Create Contact Successful!"
         })
     } catch (e) {

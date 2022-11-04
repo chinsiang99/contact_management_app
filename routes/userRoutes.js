@@ -19,12 +19,12 @@ router.route("/registerUser").post(
 );
 
 // route to login user
-router.route("/loginUser").get(
+router.route("/login").post(
     loginUser
 );
 
 // route to get current user
-router.route("/getCurrentUser").get(
+router.route("/current").get(
     validateToken, getCurrentUser
 );
 

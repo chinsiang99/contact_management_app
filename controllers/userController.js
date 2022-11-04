@@ -8,6 +8,7 @@ const getUsers = asyncHandler(async (req, res, next) => {
     try {
         const allUsers = await User.find();
         res.status(200).json({
+            status: 200,
             allUsers: allUsers
         })
     } catch (e) {
@@ -56,6 +57,7 @@ const registerUser = asyncHandler(async (req, res, next) => {
             password: hash
         });
         res.status(201).json({
+            status: 201,
             message: "Register Successfully!"
         })
     } catch (e) {
@@ -97,6 +99,7 @@ const loginUser = asyncHandler(async (req, res, next) => {
             { expiresIn: "24h" }
         );
         res.status(200).json({
+            status: 200,
             token: accessToken
         })
 
