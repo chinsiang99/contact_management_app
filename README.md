@@ -40,9 +40,9 @@ Please run git clone `https://github.com/chinsiang99/contact_management_app.git`
 
 Please run `npm install` after cloning the repository
 
-### `3) Request for .env File`
+### `3) Make your own .env file`
 
-Request for .env file from `chinsiang99@gmail.com`
+Create a .env file that contains database string connection and jwt token secret
 
 ### `4) Done`
 
