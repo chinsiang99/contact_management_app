@@ -7,12 +7,18 @@ const jwt = require("jsonwebtoken");
 const getUsers = asyncHandler(async (req, res, next) => {
     try {
         const allUsers = await User.find();
-        res.status(200).json({
-            status: 200,
-            allUsers: allUsers
-        })
+        if(allUsers.length > 0){
+            res.status(200).json({
+                status: 200,
+                allUsers: allUsers
+            })
+        }else{
+            res.status(200).json({
+                status: 200,
+                message: "No users found, please register some users to proceed!"
+            })
+        }
     } catch (e) {
-        const errorMessage = e.message;
         res.status(500);
         throw new Error(errorMessage);
     }
@@ -61,9 +67,8 @@ const registerUser = asyncHandler(async (req, res, next) => {
             message: "Register Successfully!"
         })
     } catch (e) {
-        const errorMessage = e.message;
         res.status(500);
-        throw new Error(errorMessage);
+        throw new Error("Failed to Register User");
     }
 
 });
