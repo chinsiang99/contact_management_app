@@ -52,9 +52,25 @@ Run `npm run dev` to start the application
 
 ### `userRoutes`
 
-POST:/api/users/registerUser (Public Route)
+`GET: /api/users/getUsers` (Public Route) - for internal checking and referencing
 
-POST:/api/users/login (Public Route)
+`POST: /api/users/registerUser` (Public Route)
+
+`POST: /api/users/login` (Public Route)
+
+`GET: /api/users/current` (Private route)
+
+### `contactRoutes`
+
+`GET: /api/contacts` (Private route)
+
+`POST: /api/contacts` (Private route)
+
+`GET: /api/contacts/:contact_id` (Private route)
+
+`PUT: /api/contacts/:contact_id` (Private route)
+
+`DELETE: /api/contacts/:contact_id` (Private route)
 
 ## Available Scripts
 

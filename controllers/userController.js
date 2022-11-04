@@ -1,3 +1,5 @@
+// this file contains api logic functions and communicate the data object model build using mongoose
+
 const User = require("../model/userModel");
 const asyncHandler = require("express-async-handler");
 const bcrypt = require('bcrypt');
