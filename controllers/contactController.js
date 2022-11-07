@@ -4,6 +4,7 @@ const Contact = require("../model/contactModel");
 const User = require("../model/userModel");
 const asyncHandler = require("express-async-handler");
 const jwt = require("jsonwebtoken");
+const sanitizeHtml = require('sanitize-html');
 
 // getting all contacts
 const getAllContacts = asyncHandler(async (req, res, next) => {
@@ -84,10 +85,10 @@ const createContact = asyncHandler(async (req, res, next) => {
 
     try {
         const createContact = await Contact.create({
-            User: id,
-            name: name,
-            email: email,
-            phone: phone
+            User: sanitizeHtml(id),
+            name: sanitizeHtml(name),
+            email: sanitizeHtml(email),
+            phone: sanitizeHtml(phone)
         });
         res.status(201).json({
             status: 201,
@@ -124,9 +125,9 @@ const updateContact = asyncHandler(async (req, res, next) => {
     try{
         const updateContact = await Contact.where("_id").equals(contact_id).where("User").equals(id);
         if (updateContact.length > 0) {
-            updateContact[0].name = name;
-            updateContact[0].email = email;
-            updateContact[0].phone = phone;
+            updateContact[0].name = sanitizeHtml(name);
+            updateContact[0].email = sanitizeHtml(email);
+            updateContact[0].phone = sanitizeHtml(phone);
             updateContact[0].updatedAt = Date.now();
             try {
                 await updateContact[0].save();

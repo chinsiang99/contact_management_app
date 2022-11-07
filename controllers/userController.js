@@ -4,6 +4,7 @@ const User = require("../model/userModel");
 const asyncHandler = require("express-async-handler");
 const bcrypt = require('bcrypt');
 const jwt = require("jsonwebtoken");
+const sanitizeHtml = require('sanitize-html');
 
 // getting all users
 const getUsers = asyncHandler(async (req, res, next) => {
@@ -60,8 +61,8 @@ const registerUser = asyncHandler(async (req, res, next) => {
 
     try {
         const createUser = await User.create({
-            username: username,
-            email: email,
+            username: sanitizeHtml(username),
+            email: sanitizeHtml(email),
             password: hash
         });
         res.status(201).json({
