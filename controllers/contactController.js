@@ -92,45 +92,30 @@ const updateContact = asyncHandler(async (req, res, next) => {
     const { name, email, phone } = req.body;
     const { id } = req.user;
 
-    // check whether every fields are filled in
-    if (!name || !email || !phone) {
-        res.status(400);
-        throw new Error("All fields are mandatory!");
-    }
-
-    const regex = /\S+@\S+\.\S+/;
-
-    // email format validation
-    if (!email.match(regex)) {
-        res.status(400);
-        throw new Error("Invalid email format, please insert a valid email format");
-    }
-
     try {
-        const updateContact = await Contact.where("_id").equals(contact_id).where("User").equals(id);
-        if (updateContact.length > 0) {
-            updateContact[0].name = name;
-            updateContact[0].email = email;
-            updateContact[0].phone = phone;
-            updateContact[0].updatedAt = Date.now();
+        const updateContact = await Contact.findOne({ _id: contact_id, User: id });
+        if (updateContact) {
+            updateContact.name = name ?? updateContact.name;
+            updateContact.email = email ?? updateContact.email;
+            updateContact.phone = phone ?? updateContact.phone;
             try {
-                await updateContact[0].save();
+                await updateContact.save();
                 res.status(200).json({
                     status: 200,
                     message: "Update Contact Successfully",
                 });
             } catch (e) {
                 res.status(500);
-                throw new Error("Failed to Update Contact");
+                throw new Error(e.message);
             }
 
         } else {
-            res.status(400);
+            res.status(404);
             throw new Error("Specific Contact Does Not Exist!");
         }
     } catch (e) {
-        res.status(400);
-        throw new Error("Specific Contact Does Not Exist!");
+        res.status(500);
+        throw new Error(e.message);
     }
 
 });
