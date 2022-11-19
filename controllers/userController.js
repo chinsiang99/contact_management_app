@@ -31,9 +31,6 @@ const getUsers = asyncHandler(async (req, res, next) => {
 const registerUser = asyncHandler(async (req, res, next) => {
     const { username, email, password } = req.body;
 
-    // regex for email
-    const regex = /\S+@\S+\.\S+/;
-    // const regex2 = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
     // check either username, email or password is not filled
     if (!(username && email && password)) {
