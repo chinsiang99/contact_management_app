@@ -31,7 +31,6 @@ const getUsers = asyncHandler(async (req, res, next) => {
 const registerUser = asyncHandler(async (req, res, next) => {
     const { username, email, password } = req.body;
 
-
     // check either username, email or password is not filled
     if (!(username && email && password)) {
         res.status(400);
@@ -111,16 +110,16 @@ const loginUser = asyncHandler(async (req, res, next) => {
 // get current user with decoded jwt token
 const getCurrentUser = asyncHandler(async (req, res, next) => {
     const { id } = req.user;
-    const currentUser = await User.where("_id").equals(id);
+    const currentUser = await User.findById(id);
 
-    if (currentUser.length > 0) {
+    if (currentUser) {
         res.status(200).json({
             status: 200,
             message: "Retrieve Current User Detail Successful",
-            userDetail: currentUser[0]
+            userDetail: currentUser
         })
     } else {
-        res.status(400);
+        res.status(404);
         throw new Error("No Record found");
     }
 })
