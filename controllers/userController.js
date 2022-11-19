@@ -80,26 +80,27 @@ const loginUser = asyncHandler(async (req, res, next) => {
     const { email, password } = req.body;
 
     // check either email or password is not filled
-    if (!email || !password) {
+    if (!(email && password)) {
         res.status(400);
         throw new Error("All fields are mandatory!");
     }
 
     // check whether the email is registered
-    const user = await User.where("email").equals(email);
-    if (!user.length) {
+    const user = await User.findOne({ email: email });
+
+    if (!user) {
         res.status(401);
         throw new Error("Email is not registered");
     }
 
     // compare the password to check whether they match each other
-    authorized = await bcrypt.compare(password, user[0].password);
+    authorized = await bcrypt.compare(password, user.password);
 
     if (authorized) {
         const accessToken = jwt.sign(
             {
                 user: {
-                    id: user[0]._id,
+                    id: user._id,
                 },
             },
             process.env.ACCESS_TOKEN_SECERT,
