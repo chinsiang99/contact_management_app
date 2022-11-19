@@ -36,20 +36,14 @@ const registerUser = asyncHandler(async (req, res, next) => {
     // const regex2 = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
     // check either username, email or password is not filled
-    if (!username || !email || !password) {
+    if (!(username && email && password)) {
         res.status(400);
         throw new Error("All fields are mandatory!");
     }
 
-    // email format validation
-    if (!email.match(regex)) {
-        res.status(400);
-        throw new Error("Invalid email format, please insert a valid email format");
-    }
+    const duplicateEmail = await User.findOne({ email: email });
 
-    const duplicateEmail = await User.where("email").equals(email).limit(1);
-
-    if (duplicateEmail.length > 0) {
+    if (duplicateEmail) {
         throw new Error(`Duplicate email: ${email}`);
     }
 
@@ -70,7 +64,7 @@ const registerUser = asyncHandler(async (req, res, next) => {
         })
     } catch (e) {
         res.status(500);
-        throw new Error("Failed to Register User");
+        throw new Error(e.message);
     }
 
 });
