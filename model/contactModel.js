@@ -19,16 +19,7 @@ const contactSchema = new mongoose.Schema({
     phone: {
         type: String,
         required: [true, "Please add the contact phone number"]
-    },
-    createdAt: {
-        type: Date,
-        immutable: true,
-        default: () => Date.now()
-    },
-    updatedAt: {
-        type: Date,
-        default: () => Date.now()
     }
-})
+}, { timestamps: true })
 
 module.exports = mongoose.model("Contact", contactSchema);
