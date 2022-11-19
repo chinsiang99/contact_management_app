@@ -4,18 +4,17 @@ const User = require("../model/userModel");
 const asyncHandler = require("express-async-handler");
 const bcrypt = require('bcrypt');
 const jwt = require("jsonwebtoken");
-const sanitizeHtml = require('sanitize-html');
 
 // getting all users
 const getUsers = asyncHandler(async (req, res, next) => {
     try {
         const allUsers = await User.find();
-        if(allUsers.length > 0){
+        if (allUsers.length > 0) {
             res.status(200).json({
                 status: 200,
                 allUsers: allUsers
             })
-        }else{
+        } else {
             res.status(200).json({
                 status: 200,
                 message: "No users found, please register some users to proceed!"
@@ -61,8 +60,8 @@ const registerUser = asyncHandler(async (req, res, next) => {
 
     try {
         const createUser = await User.create({
-            username: sanitizeHtml(username),
-            email: sanitizeHtml(email),
+            username: username,
+            email: email,
             password: hash
         });
         res.status(201).json({
