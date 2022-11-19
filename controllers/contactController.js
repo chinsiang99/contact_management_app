@@ -10,7 +10,7 @@ const getAllContacts = asyncHandler(async (req, res, next) => {
     const { id } = req.user;
 
     try {
-        const getAllContacts = await Contact.where("User").equals(id);
+        const getAllContacts = await Contact.find({ User: id });
         if (getAllContacts.length > 0) {
             res.status(200).json({
                 status: 200,
@@ -18,19 +18,15 @@ const getAllContacts = asyncHandler(async (req, res, next) => {
                 contactList: getAllContacts
             });
         } else {
-            res.status(200).json({
-                status: 200,
+            res.status(404).json({
+                status: 404,
                 message: "There are no contacts found, please create some contacts",
             });
         }
     } catch (e) {
-        res.status(400);
+        res.status(500);
         throw new Error("There is something wrong with the request, please check the inputted data!");
     }
-
-
-
-
 
 });
 
