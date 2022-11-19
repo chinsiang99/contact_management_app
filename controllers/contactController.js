@@ -36,26 +36,23 @@ const getSpecificContact = asyncHandler(async (req, res, next) => {
     const { id } = req.user;
 
     try {
-        const getSpecificContact = await Contact.where("_id").equals(contact_id).where("User").equals(id);
-        if (getSpecificContact.length > 0) {
+        const getSpecificContact = await Contact.findOne({ _id: contact_id, User: id });
+        if (getSpecificContact) {
             res.status(200).json({
                 status: 200,
                 message: "Get Specific Contact Details Successfully",
-                contactDetails: getSpecificContact[0]
+                contactDetails: getSpecificContact
             });
         } else {
-            res.status(400).json({
-                status: 400,
+            res.status(404).json({
+                status: 404,
                 message: "The specific contact does not exist!"
             });
         }
     } catch (e) {
-        res.status(400);
+        res.status(500);
         throw new Error("There is something wrong with the request, please check the inputted data!");
     }
-
-
-
 
 });
 
