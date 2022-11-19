@@ -140,7 +140,6 @@ const deleteContact = asyncHandler(async (req, res, next) => {
             })
         }
     } catch (e) {
-        console.log("hello");
         res.status(500);
         throw new Error(e.message);
     }
