@@ -62,17 +62,9 @@ const createContact = asyncHandler(async (req, res, next) => {
     const { name, email, phone } = req.body;
 
     // check whether every fields are filled in
-    if (!name || !email || !phone) {
+    if (!(name && email && phone)) {
         res.status(400);
         throw new Error("All fields are mandatory!");
-    }
-
-    const regex = /\S+@\S+\.\S+/;
-
-    // email format validation
-    if (!email.match(regex)) {
-        res.status(400);
-        throw new Error("Invalid email format, please insert a valid email format");
     }
 
     try {
