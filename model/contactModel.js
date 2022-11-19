@@ -1,4 +1,8 @@
 const mongoose = require("mongoose");
+var validateEmail = function (email) {
+    var re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    return re.test(email)
+};
 
 // schema for contact
 
@@ -14,6 +18,7 @@ const contactSchema = new mongoose.Schema({
     },
     email: {
         type: String,
+        validate: [validateEmail, 'Please fill a valid email address'],
         required: [true, "Please add the contact email address"]
     },
     phone: {
