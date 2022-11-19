@@ -126,31 +126,25 @@ const deleteContact = asyncHandler(async (req, res, next) => {
     const { id } = req.user;
 
     try {
-        const deleteContact = await Contact.where("_id").equals(contact_id).where("User").equals(id);
+        const deleteContact = await Contact.findOneAndDelete({ _id: contact_id, User: id });
 
-        if (deleteContact.length > 0) {
-            try {
-                await deleteContact[0].remove();
-                res.status(200).json({
-                    status: 200,
-                    message: "Delete Contact Successfully"
-                })
-            } catch (e) {
-                res.status(500);
-                throw new Error("Failed to Delete Contact");
-            }
-
+        if (deleteContact) {
+            res.status(200).json({
+                status: 200,
+                message: "Delete Contact Successfully"
+            })
         } else {
-            res.status(400);
-            throw new Error("Specific Contact Does Not Exist!");
+            res.status(404).json({
+                status: 404,
+                message: "Specific Contact Does Not Exist!"
+            })
         }
-
     } catch (e) {
-        res.status(400);
-        throw new Error("There is something wrong with the request, please check the inputted data!");
+        console.log("hello");
+        res.status(500);
+        throw new Error(e.message);
     }
 
 })
-
 
 module.exports = { createContact, getAllContacts, getSpecificContact, updateContact, deleteContact }
